@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Apresentação – Deep Learning em Sensoriamento Remoto (Artigos 1 e 2)</title>
+  <style>
+    :root {
+      --bg: #050711;
+      --card: #121827;
+      --accent: #00c2a8;
+      --accent-soft: rgba(0, 194, 168, 0.18);
+      --accent-2: #ffb347;
+      --text-main: #f9fafb;
+      --text-soft: #d1d5db;
+      --border-soft: #1f2937;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 45%);
+      color: var(--text-main);
+    }
+
+    .deck {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 16px 64px 16px;
+    }
+
+    .slide {
+      border-radius: 20px;
+      padding: 24px 28px;
+      margin-bottom: 26px;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.94));
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.08) 0, transparent 50%),
+        radial-gradient(circle at 100% 0, rgba(244, 114, 182, 0.06) 0, transparent 55%);
+      opacity: 0.8;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .slide-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide h1,
+    .slide h2,
+    .slide h3 {
+      margin-top: 0;
+    }
+
+    .slide h1 {
+      font-size: 2.1rem;
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+
+    .slide h2 {
+      font-size: 1.7rem;
+      margin-bottom: 6px;
+    }
+
+    .slide h3 {
+      font-size: 1.1rem;
+      color: var(--text-soft);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: rgba(15, 23, 42, 0.78);
+      color: var(--text-soft);
+    }
+
+    .tag-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .tag-dot.artigo2 {
+      background: var(--accent-2);
+    }
+
+    .subtitle {
+      font-size: 1.02rem;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    ul {
+      margin-top: 8px;
+      padding-left: 22px;
+    }
+
+    li {
+      margin-bottom: 5px;
+      line-height: 1.5;
+    }
+
+    .note {
+      font-size: 0.86rem;
+      color: #9ca3af;
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.94rem;
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      border: 1px solid #1f2937;
+      padding: 6px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: rgba(15, 23, 42, 0.95);
+      font-weight: 600;
+    }
+
+    .figure-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    figure {
+      margin: 0;
+      padding: 8px;
+      border-radius: 14px;
+      border: 1px solid var(--border-soft);
+      background: radial-gradient(circle at top left, rgba(34, 197, 178, 0.1), rgba(15, 23, 42, 0.95));
+      font-size: 0.9rem;
+      color: var(--text-soft);
+    }
+
+    figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 6px;
+      background: #020617;
+      object-fit: contain;
+    }
+
+    figcaption {
+      font-size: 0.85rem;
+      color: #e5e7eb;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      background: var(--accent-soft);
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .pill.artigo2 {
+      background: rgba(248, 191, 88, 0.18);
+      color: var(--accent-2);
+    }
+
+    .footer {
+      margin-top: 32px;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      text-align: center;
+    }
+
+    .footer span {
+      opacity: 0.8;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        color: #000;
+      }
+
+      .slide {
+        page-break-inside: avoid;
+        background: #fff;
+        box-shadow: none;
+        border: 1px solid #d1d5db;
+      }
+
+      .slide::before {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="deck">
+
+    <!-- Slide 1 -->
+    <section class="slide">
+      <div class="slide-content">
+        <div class="tag-row">
+          <div class="tag"><span class="tag-dot"></span><span>Deep Learning</span></div>
+          <div class="tag"><span class="tag-dot artigo2"></span><span>Sensoriamento Remoto</span></div>
+          <div class="tag"><span>Seminário – 20 minutos</span></div>
+        </div>
+        <h1>Artigos-chave em Deep Learning para Sensoriamento Remoto</h1>
+        <h3>Carvalho et al. (2021) &amp; Ma et al. (2019)</h3>
+        <ul>
+          <li>Objetivo: apresentar e discutir os artigos 1 e 2, destacando métodos, resultados e potencial de aplicação.
+          </li>
+          <li>Foco: segmentação por instância em imagens multiespectrais (Artigo 1) e panorama geral do uso de deep
+            learning em sensoriamento remoto (Artigo 2).</li>
+          <li>Motivação: embasar metodologicamente projetos de mapeamento (por exemplo, sistemas silvipastoris no
+            Paraná).</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Slide 2 -->
+    <section class="slide">
+      <div class="slide-content">
+        <h2>Dados de impacto, DOI e ISSN</h2>
+        <p class="subtitle">Caracterização bibliográfica e impacto dos artigos</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Artigo</th>
+              <th>Periódico</th>
+              <th>DOI</th>
+              <th>ISSN</th>
+              <th>FI (2022)</th>
+              <th>Qualis</th>
+              <th>Citações*</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ma et al. (2019) – Deep learning in remote sensing applications: A meta-analysis and review</td>
+              <td>ISPRS Journal of Photogrammetry and Remote Sensing</td>
+              <td>10.1016/j.isprsjprs.2019.04.015</td>
+              <td>0924-2716</td>
+              <td>12,7</td>
+              <td>A1</td>
+              <td>≈ 1.565</td>
+            </tr>
+            <tr>
+              <td>Carvalho et al. (2021) – Instance Segmentation for Large, Multi-Channel Remote Sensing Imagery Using
+                Mask-RCNN and a Mosaicking Approach</td>
+              <td>Remote Sensing</td>
+              <td>10.3390/rs13010039</td>
+              <td>2072-4292</td>
+              <td>5,0</td>
+              <td>A2</td>
+              <td>≈ 70</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="figure-grid" style="margin-top:14px;">
+          <figure>
+
+            <strong>Quadro 1.</strong> Resumo bibliométrico dos dois artigos (DOI, ISSN, fator de impacto e
+            citações). <br></span>
+          </figure>
+        </div>
+        <div class="note">*Números aproximados conforme síntese anterior (Google Scholar).</div>
+      </div>
+    </section>
+
+    <!-- Slide 3 -->
+    <section class="slide">
+      <div class="slide-content">
+        <div class="pill"><span class="tag-dot"></span><span>Artigo 1 – Carvalho et al. (2021)</span></div>
+        <h2>Visão geral do Artigo 1</h2>
+        <ul>
+          <li>Problema: detecção e segmentação por instância de pivôs centrais de irrigação em grandes áreas, usando
+            imagens Landsat-8 multiespectrais (7 bandas).</li>
+          <li>Objetivo: propor um fluxo Mask R-CNN multicanal combinado com um algoritmo de mosaicking para grandes
+            cenas.</li>
+          <li>Contribuições principais:</li>
+          <ul>
+            <li>Modelagem de <strong>instance segmentation</strong> para objetos circulares (pivôs) com diferentes
+              padrões espectrais.</li>
+            <li>Comparação de vários backbones (ResNet/ResNeXt) com métricas COCO.</li>
+            <li>Comparação RGB vs multicanal, mostrando ganho de ~3% de AP com 7 bandas.</li>
+            <li>Uso de mosaicking com supressão de não-máximos ordenada por área.</li>
+          </ul>
+        </ul>
+        <div class="figure-grid">
+          <figure>
+            <img src="fig_artigo1_fluxograma.png"
+              alt="Fluxograma metodológico do processo de segmentação por instância com Mask R-CNN e mosaicking.">
+            <figcaption><strong>Figura 2.</strong> Fluxograma metodológico do Artigo 1 – pré-processamento, treinamento
+              com Mask R-CNN e mosaicking das predições.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 4 -->
+    <section class="slide">
+      <div class="slide-content">
+        <div class="pill"><span class="tag-dot"></span><span>Artigo 1 – Dados &amp; área</span></div>
+        <h2>Artigo 1 – Dados e área de estudo</h2>
+        <ul>
+          <li><strong>Dados:</strong></li>
+          <ul>
+            <li>Imagens Landsat-8 OLI (7 bandas) pré-processadas.</li>
+            <li>Máscaras de pivôs centrais anotadas em formato COCO (polígonos).</li>
+          </ul>
+          <li><strong>Área de estudo:</strong> regiões de agricultura irrigada no Cerrado brasileiro (Oeste da Bahia,
+            Mato Grosso, entorno de Brasília/DF).</li>
+          <li>Pivôs centrais: formas circulares com forte contraste espectral em relação ao entorno – bons alvos para
+            instance segmentation.</li>
+        </ul>
+        <div class="figure-grid">
+          <figure>
+            <img src="fig_artigo1_mapa_areas.png"
+              alt="Mapa de localização das áreas de estudo no Oeste da Bahia, Mato Grosso e entorno do DF.">
+            <figcaption><strong>Figura 3.</strong> Localização das áreas de estudo (A: Oeste da Bahia; B: Mato Grosso;
+              C: entorno de Brasília/DF).</figcaption>
+          </figure>
+          <figure>
+            <img src="fig_artigo1_patches_pivos.png"
+              alt="Exemplos de patches de imagem Landsat com pivôs centrais anotados.">
+            <figcaption><strong>Figura 4.</strong> Exemplos de patches de imagem Landsat-8 com pivôs centrais anotados
+              em formato COCO.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 5 -->
+    <section class="slide">
+      <div class="slide-content">
+        <div class="pill"><span class="tag-dot"></span><span>Artigo 1 – Metodologia</span></div>
+        <h2>Artigo 1 – Fluxo Mask R-CNN + COCO + mosaicking</h2>
+        <ul>
+          <li><strong>Pré-processamento:</strong> recorte em patches (por exemplo, 512×512 px), normalização das bandas
+            e criação das máscaras COCO.</li>
+          <li><strong>Treinamento:</strong></li>
+          <ul>
+            <li>Avaliação de múltiplos backbones (ResNet50/101, ResNeXt101 com FPN, DC5, C4).</li>
+            <li>Métricas COCO: AP, AP50, AP75, AP<sub>small</sub>, AP<sub>medium</sub>, AR100.</li>
+          </ul>
+          <li><strong>Mosaicking e pós-processamento:</strong></li>
+          <ul>
+            <li>Inferência em janelas sobre grandes cenas.</li>
+            <li>Aplicação de Non-Max Suppression ordenada por área, para consolidar instâncias e reduzir sobreposição.
+            </li>
+          </ul>
+        </ul>
+        <div class="figure-grid">
+          <figure>
+            <img src="fig_artigo1_masks_coco.png"
+              alt="Esquema de criação de máscaras em formato COCO a partir de polígonos de pivôs.">
+            <figcaption><strong>Figura 5.</strong> Esquema de criação de máscaras COCO a partir de shapefiles de pivôs
+              centrais.</figcaption>
+          </figure>
+          <figure>
+            <img src="fig_artigo1_mosaicking_nms.png"
+              alt="Ilustração do mosaicking de janelas e da supressão de não-máximos ordenada por área.">
+            <figcaption><strong>Figura 6.</strong> Ilustração do processo de mosaicking e da supressão de não-máximos
+              (NMS) ordenada por área.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 6 -->
+    <section class="slide">
+      <div class="slide-content">
+        <div class="pill"><span class="tag-dot"></span><span>Artigo 1 – Resultados</span></div>
+        <h2>Artigo 1 – Resultados quantitativos e qualitativos</h2>
+        <ul>
+          <li><strong>Desempenho dos backbones:</strong></li>
+          <ul>
+            <li>ResNeXt101-FPN apresenta o melhor desempenho (maior AP), superando ResNet101-FPN em ~3% de AP.</li>
+          </ul>
+          <li><strong>RGB vs multicanal:</strong></li>
+          <ul>
+            <li>As 7 bandas multiespectrais superam o modelo apenas RGB, com ganho de ~3% em AP.</li>
+          </ul>
+          <li><strong>Aplicabilidade:</strong> fluxo replicável para outros alvos agrícolas (pastagens, cultivos
+            perenes, sistemas silvipastoris etc.).</li>
+        </ul>
+        <div class="figure-grid">
+          <figure>
+            <img src="fig_artigo1_tabela_backbones.png"
+              alt="Tabela com métricas COCO para diferentes backbones de Mask R-CNN.">
+            <figcaption><strong>Figura 7.</strong> Tabela de métricas COCO (AP, AP50, AP75 etc.) para os diferentes
+              backbones avaliados.</figcaption>
+          </figure>
+          <figure>
+            <img src="fig_artigo1_resultados_visuais.png"
+              alt="Exemplos de predições da Mask R-CNN sobre pivôs centrais, com máscaras coloridas.">
+            <figcaption><strong>Figura 8.</strong> Exemplos qualitativos de segmentação de pivôs centrais pelo modelo
+              Mask R-CNN.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 7 -->
+    <section class="slide">
+      <div class="slide-content">
+        <div class="pill artigo2"><span class="tag-dot artigo2"></span><span>Artigo 2 – Ma et al. (2019)</span></div>
+        <h2>Artigo 2 – Visão geral</h2>
+        <ul>
+          <li>Objetivo: realizar uma meta-análise sistemática das aplicações de deep learning em sensoriamento remoto.
+          </li>
+          <li>Abrange tarefas, tipos de dados, arquiteturas de redes e desempenho em diferentes contextos.</li>
+          <li>Perguntas centrais:</li>
+          <ul>
+            <li>Em que tarefas o deep learning tem sido mais utilizado (LULC, classificação de cenas, detecção de
+              objetos etc.)?</li>
+            <li>Quais arquiteturas (CNN, RNN, GAN, híbridas) são mais empregadas?</li>
+            <li>Que tipos de dados (resolução, sensores, tipos de área) e níveis de acurácia têm sido reportados?</li>
+          </ul>
+        </ul>
+        <div class="figure-grid">
+          <figure>
+            <img src="fig_artigo2_evolucao_ano.png"
+              alt="Gráfico mostrando o número de artigos e conferências em deep learning para sensoriamento remoto ao longo dos anos.">
+            <figcaption><strong>Figura 9.</strong> Crescimento do número de publicações em deep learning aplicado ao
+              sensoriamento remoto ao longo do tempo.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 8 -->
+    <section class="slide">
+      <div class="slide-content">
+        <div class="pill artigo2"><span class="tag-dot artigo2"></span><span>Artigo 2 – Estatísticas</span></div>
+        <h2>Artigo 2 – Estatísticas principais da meta-análise</h2>
+        <ul>
+          <li><strong>Tarefas predominantes:</strong></li>
+          <ul>
+            <li>Classificação de uso e cobertura da terra (LULC).</li>
+            <li>Classificação de cenas.</li>
+            <li>Detecção de objetos (edifícios, veículos, navios etc.).</li>
+          </ul>
+          <li><strong>Arquiteturas mais usadas:</strong></li>
+          <ul>
+            <li>Domínio de CNNs profundas, com uso crescente de arquiteturas híbridas e GANs para problemas específicos.
+            </li>
+          </ul>
+          <li><strong>Dados e sensores:</strong></li>
+          <ul>
+            <li>Uso intenso de imagens de alta resolução, combinações multissensores (multiespectral, LiDAR, SAR) e
+              múltiplos tipos de área (urbano, agrícola, florestal).</li>
+          </ul>
+        </ul>
+        <div class="figure-grid">
+          <figure>
+            <img src="fig_artigo2_tarefas.png"
+              alt="Gráfico de barras ou pizza mostrando a distribuição das tarefas estudadas (LULC, cenas, objetos...).">
+            <figcaption><strong>Figura 10.</strong> Distribuição dos estudos por tipo de tarefa (LULC, classificação de
+              cenas, detecção de objetos, entre outros).</figcaption>
+          </figure>
+          <figure>
+            <img src="fig_artigo2_modelos_dados.png"
+              alt="Gráficos mostrando a distribuição por tipo de modelo deep learning e tipo de dado/sensor.">
+            <figcaption><strong>Figura 11.</strong> Distribuição por tipo de modelo (CNN, RNN, GAN etc.) e por tipo de
+              dado/sensor utilizado.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 9 -->
+    <section class="slide">
+      <div class="slide-content">
+        <div class="pill artigo2"><span class="tag-dot artigo2"></span><span>Artigo 2 – Desempenho</span></div>
+        <h2>Artigo 2 – Desempenho, desafios e recomendações</h2>
+        <ul>
+          <li><strong>Desempenho:</strong></li>
+          <ul>
+            <li>Deep learning apresenta acurácia superior aos métodos tradicionais em classificação de cenas, LULC e
+              detecção de objetos.</li>
+          </ul>
+          <li><strong>Desafios identificados:</strong></li>
+          <ul>
+            <li>Dependência de grandes volumes de dados rotulados.</li>
+            <li>Dificuldades de generalização entre sensores, áreas e condições ambientais.</li>
+            <li>Alto custo computacional e necessidade de hardware especializado.</li>
+          </ul>
+          <li><strong>Recomendações gerais:</strong></li>
+          <ul>
+            <li>Curadoria cuidadosa e diversificação dos conjuntos de treino.</li>
+            <li>Escolha criteriosa de arquiteturas, evitando simplesmente “o modelo da moda”.</li>
+            <li>Avaliação robusta (por exemplo, cross-validation, métricas adequadas) e atenção à capacidade de
+              generalização.</li>
+          </ul>
+        </ul>
+        <div class="figure-grid">
+          <figure>
+            <img src="fig_artigo2_acuracia.png"
+              alt="Boxplot ou gráfico de acurácia por tarefa e modelo em deep learning.">
+            <figcaption><strong>Figura 12.</strong> Resumo das acurácias obtidas em diferentes tarefas e modelos de deep
+              learning em sensoriamento remoto.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 10 -->
+    <section class="slide">
+      <div class="slide-content">
+        <h2>Comparando Artigo 1 x Artigo 2</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Artigo</th>
+              <th>Tipo</th>
+              <th>Pontos fortes</th>
+              <th>Limitações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Carvalho et al. (2021)</td>
+              <td>Aplicado (segmentação por instância)</td>
+              <td>Fluxo prático e replicável; uso de imagens multiespectrais; ganho de ≈3% vs RGB; benchmark com vários
+                backbones.</td>
+              <td>Focado em pivôs centrais; exige dados bem rotulados; custo computacional elevado.</td>
+            </tr>
+            <tr>
+              <td>Ma et al. (2019)</td>
+              <td>Revisão / meta-análise</td>
+              <td>Visão abrangente do uso de deep learning em SR; identifica tendências, desafios e boas práticas.</td>
+              <td>Abordagem generalista; não entra em detalhes finos de uma única aplicação.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="note">
+          Juntos, os artigos oferecem um roteiro metodológico concreto (Carvalho et al.) e um enquadramento
+          teórico/estratégico (Ma et al.) para projetos em deep learning aplicado a sensoriamento remoto.
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 11 -->
+    <section class="slide">
+      <div class="slide-content">
+        <h2>Conexão com mapeamento de sistemas silvipastoris (SSP)</h2>
+        <ul>
+          <li><strong>Do Artigo 1:</strong> fornece um fluxo de instance segmentation (Mask R-CNN + mosaicking) que pode
+            ser adaptado para identificar padrões silvipastoris em imagens Landsat-8 ou Sentinel-2.</li>
+          <li><strong>Do Artigo 2:</strong> traz diretrizes para escolha de arquiteturas, curadoria de dados e
+            avaliação, ajudando a evitar overfitting e a garantir generalização para o contexto do Paraná.</li>
+          <li><strong>Resultado esperado:</strong> sistemas de mapeamento mais robustos, escaláveis e alinhados ao
+            estado da arte em deep learning para sensoriamento remoto.</li>
+        </ul>
+        <div class="figure-grid">
+          <figure>
+            <img src="fig_fluxo_ssp.png"
+              alt="Esquema conceitual ligando revisão, pipeline Mask R-CNN e aplicação em SSP no Paraná.">
+            <figcaption><strong>Figura 13.</strong> Esquema conceitual: revisão (Ma et al.) → diretrizes gerais →
+              pipeline Mask R-CNN (Carvalho et al.) → aplicação em SSP no Paraná.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 12 -->
+    <section class="slide">
+      <div class="slide-content">
+        <h2>Conclusões e referências</h2>
+        <ul>
+          <li>Os dois artigos são complementares: um fornece o panorama (Ma et al., 2019) e o outro a implementação
+            detalhada
+            (Carvalho et al., 2021).</li>
+          <li>Há coerência entre as recomendações da meta-análise (dados, modelos, avaliação) e a forma como Carvalho et
+            al. implementam o fluxo de segmentação por instância.</li>
+          <li>Juntos, constituem um bom começo para aplicações futuras em mapeamento agrícola, florestal e de
+            sistemas silvipastoris.</li>
+        </ul>
+        <h3>Referências</h3>
+        <ul>
+          <li>Ma, L. et al. (2019). Deep learning in remote sensing applications: A meta-analysis and review. <em>ISPRS
+              Journal of Photogrammetry and Remote Sensing</em>, 152, 166–177. DOI: 10.1016/j.isprsjprs.2019.04.015.
+          </li>
+          <li>Carvalho, O. L. F. et al. (2021). Instance Segmentation for Large, Multi-Channel Remote Sensing Imagery
+            Using Mask-RCNN and a Mosaicking Approach. <em>Remote Sensing</em>, 13(1), 39. DOI: 10.3390/rs13010039.</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+</body>
+
+</html>
